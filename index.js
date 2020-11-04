@@ -40,7 +40,7 @@ const checkMessage = (msg) => {
         }
 
         const embeds = msg.embeds;
-        if(embeds && embeds.length > 0){
+        if (embeds && embeds.length > 0) {
             return;
         }
 
@@ -49,7 +49,11 @@ const checkMessage = (msg) => {
         replaced = replaced.replace(' ', '').trim();
         let length = replaced.length;
         if (length === 0) {
-            warn(msg);
+            if (msg.content.includes("pdikov")) {
+                warn(msg, true);
+            } else {
+                warn(msg);
+            }
         }
 
     } catch (e) {
@@ -57,10 +61,14 @@ const checkMessage = (msg) => {
     }
 }
 
-const warn = (msg) => {
+const warn = (msg, pecata) => {
+    const msgToSend = pecata ?
+        `<@${msg.author.id}> Стига си се ебавал с пецата...` :
+        `<@${msg.author.id}> Моля те, стига си пращал емотикони на един ред! :poop:`;
+
     msg.channel.startTyping(1);
     setTimeout(() => {
-        msg.channel.send(`<@${msg.author.id}> Моля те, стига си пращал емотикони на един ред! :poop:`)
+        msg.channel.send(msgToSend)
             .then(msg => {
                 msg.channel.stopTyping();
 
