@@ -43,6 +43,7 @@ const checkMessage = (msg) => {
 
         let replaced = msg.content.replace(dcEmojiRegex, '');
         replaced = replaced.replace(emojiRegex, '');
+        replaced = replaced.replace(' ', '');
 
         let length = replaced.length;
         if (length === 0) {
@@ -55,7 +56,7 @@ const checkMessage = (msg) => {
 }
 
 const warn = (msg) => {
-    msg.channel.startTyping(5);
+    msg.channel.startTyping(1);
     setTimeout(() => {
         msg.channel.send(`<@${msg.author.id}> Моля те, стига си пращал емотикони на един ред! :poop:`)
             .then(msg => {
