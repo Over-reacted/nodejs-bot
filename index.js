@@ -39,6 +39,11 @@ const checkMessage = (msg) => {
             return;
         }
 
+        const embeds = msg.embeds;
+        if(embeds && embeds.length > 0){
+            return;
+        }
+
         let replaced = msg.content.replace(dcEmojiRegex, '');
         replaced = replaced.replace(emojiRegex, '');
         replaced = replaced.replace(' ', '').trim();
@@ -58,6 +63,11 @@ const warn = (msg) => {
         msg.channel.send(`<@${msg.author.id}> Моля те, стига си пращал емотикони на един ред! :poop:`)
             .then(msg => {
                 msg.channel.stopTyping();
+
+                setTimeout(() => {
+                    msg.delete();
+                }, 5000);
+
             })
     }, 1000);
 }
