@@ -7,7 +7,7 @@ const dcEmojiRegex = /<:.+?:\d+>/g;
 const token = process.env.TOKEN;
 
 if (!token) {
-    console.log('No token providen!')
+    console.log('No token provided!')
     return;
 }
 
@@ -35,16 +35,13 @@ client.on('ready', () => {
 const checkMessage = (msg) => {
     try {
         const attachments = msg.attachments;
-        if (attachments) {
-            if (attachments.array().length > 0) {
-                return;
-            }
+        if (attachments && attachments.size > 0) {
+            return;
         }
 
         let replaced = msg.content.replace(dcEmojiRegex, '');
         replaced = replaced.replace(emojiRegex, '');
-        replaced = replaced.replace(' ', '');
-
+        replaced = replaced.replace(' ', '').trim();
         let length = replaced.length;
         if (length === 0) {
             warn(msg);
@@ -63,7 +60,6 @@ const warn = (msg) => {
                 msg.channel.stopTyping();
             })
     }, 1000);
-
 }
 
 client.on('message', msg => checkMessage(msg));
